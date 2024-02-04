@@ -5,6 +5,8 @@ import Weavin.Entities.ForumPost;
 import Weavin.Entities.MarketPost;
 import Weavin.Entities.Semester;
 import Weavin.Enums.Field;
+import Weavin.Enums.Presence;
+import Weavin.Enums.ReportStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
