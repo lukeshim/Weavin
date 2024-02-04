@@ -8,7 +8,7 @@ This app, named Weavin, allows online users to gather on a social platform which
 * **Commenting and Liking:** Users can add and edit comments and add likes to posts. 
 * **Calendar Creator** Users can add and edit courses to their calendars to view their schedules efficiently on their phones.
 * **GPA Calculator** Users can insert courses and scores into the calculator, which then calculates their pre-SU and post-SU GPA.
-
+* **Anonymous Feature:** Both Authors and Viewers are completely anonymous, which facilitates the users to write the genuine posts and comments.
 ## Getting Started
 
 To get a local copy up and running, note the prerequisites and follow these steps.
