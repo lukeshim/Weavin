@@ -3,10 +3,10 @@
 This companion app, named Weavin, allows online users (authenticated by JWT) to gather on a social platform which dedicates forums for different kinds of faculties in NUS, while also serving as a collection of utilities for students to use during their study. This app wil support several features:
 
 * **Anonymous Forum Discussion:** Users can create new posts with a title, text content and several tags anonymously, facilitating an open discussion environment. Users can also add comments likes to posts. 
-* **GPA Calculator** Users can insert courses and scores into the calculator, which then calculates their pre-SU and post-SU GPA.
-* **Calendar Creator** Users can add and edit courses to their calendars to view their schedules efficiently on their phones.
-* **Chatting Rooms** Users directly communicate with other people in private chatting rooms with built-in reporting and safety measures.
-* **Flea Market** Users can sell and buy unused items to others on an open market, bargaining prices in chatting rooms if necessary.
+* **GPA Calculator:** Users can insert courses and scores into the calculator, which then calculates their pre-SU and post-SU GPA.
+* **Calendar Creator:** Users can add and edit courses to their calendars to view their schedules efficiently on their phones.
+* **Chatting Rooms:** Users directly communicate with other people in private chatting rooms with built-in reporting and safety measures.
+* **Flea Market:** Users can sell and buy unused items to others on an open market, bargaining prices in chatting rooms if necessary.
 
 ## Getting Started
 
