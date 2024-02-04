@@ -1,4 +1,5 @@
 package Weavin.Entities;
+import Weavin.Enums.Field;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +30,7 @@ public class ForumPost {
 
     @Enumerated(EnumType.STRING)
     @Column
-    private String field;
+    private Field field;
 
     @Column
     private Date createdAt;
