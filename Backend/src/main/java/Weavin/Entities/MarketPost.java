@@ -16,34 +16,30 @@ public class MarketPost {
     @GeneratedValue
     private int id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user", referencedColumnName = "id")
+    private User user;
 
     @Column()
     private String productName;
 
-
     @Column()
     private String description;
-
 
     @Column()
     private Date createdAt;
 
-
     @Column()
     private Date updatedAt;
-
 
     @Column()
     private boolean isUpdated;
 
-
     @Column()
     private String photo;
 
-
     @Column()
     private int price;
-
 
     @Column()
     private int reports;
@@ -51,10 +47,8 @@ public class MarketPost {
     @Column()
     private boolean reportStatus;
 
-
     @Column()
     private int views;
-
 
     @Column()
     private int likes;
@@ -65,11 +59,7 @@ public class MarketPost {
     @Column()
     private int stock;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user", referencedColumnName = "id")
-    private User user;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "marketPost")
     private ArrayList<Comment> commentList;
-
 
 }

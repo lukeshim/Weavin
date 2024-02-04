@@ -1,7 +1,7 @@
 package Weavin.Enums;
 
 public enum Presence {
-    Online,
-    Idle,
-    Offline
+    ONLINE,
+    IDLE,
+    OFFLINE
 }

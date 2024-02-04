@@ -13,7 +13,6 @@ public class Course {
 
     @Id
     @GeneratedValue
-    @Column
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)

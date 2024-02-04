@@ -10,20 +10,13 @@ import java.util.Date;
 @Getter
 @Setter
 public class Comment{
+
     @Id
     @GeneratedValue
     private int id;
 
-
-    @Column()
-    private int userId;
-
-    @Column()
-    private int postId;
-
     @Column()
     private String body;
-
 
     @Column()
     private Date createAt;
@@ -31,14 +24,11 @@ public class Comment{
     @Column()
     private Date updatedAt;
 
-
     @Column()
     private int likes;
 
-
     @Column()
     private int reports;
-
 
     @Column()
     private boolean reportStatus;
@@ -46,11 +36,12 @@ public class Comment{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user", referencedColumnName = "id")
     private User user;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "marketPost", referencedColumnName = "id")
     private MarketPost marketPost;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "forumPost", referencedColumnName = "id")
     private ForumPost forumPost;
-
 }

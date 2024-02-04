@@ -14,7 +14,6 @@ public class Semester {
 
     @Id
     @GeneratedValue
-    @Column
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
