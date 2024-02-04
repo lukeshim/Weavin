@@ -15,7 +15,6 @@ public class ForumPost {
 
     @Id
     @GeneratedValue
-    @Column
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -17,7 +17,9 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@Table(name = "USERS")
 public class User{
+
     @Id
     @GeneratedValue
     private int id;
@@ -48,18 +50,19 @@ public class User{
     @Column()
     private int reports;
 
-
     @Enumerated(EnumType.STRING)
     @Column()
     private ReportStatus reportStatus;
 
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private ArrayList<MarketPost> marketPostList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private ArrayList<Comment> commentList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private ArrayList<Semester> semesterList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private ArrayList<ForumPost> forumPostList;
 

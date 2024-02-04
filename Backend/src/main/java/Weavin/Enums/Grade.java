@@ -1,16 +1,16 @@
 package Weavin.Enums;
 
 public enum Grade {
-    A_plus,
+    A_PLUS,
     A,
-    A_minus,
-    B_plus,
+    A_MINUS,
+    B_PLUS,
     B,
-    B_minus,
-    C_plus,
+    B_MINUS,
+    C_PLUS,
     C,
-    C_minus,
-    D_plus,
+    C_MINUS,
+    D_PLUS,
     D,
     F;
 }
