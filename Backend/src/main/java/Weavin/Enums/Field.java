@@ -1,7 +1,8 @@
 package Weavin.Enums;
 
 public enum Field {
-    school_of_computing,
-    business,
-    college_of_humanities_and_sciences
+    School_of_computing,
+    Business,
+    College_of_humanities_and_sciences,
+    College_of_design_and_engineering,
 }
