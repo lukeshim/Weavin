@@ -1,13 +1,12 @@
-# NUS Companion App with Flutter and Java Spring Project
+# NUS Companion App with Flutter and Java Spring
 
-This companion app, named Weavin, allows online users to gather on a social platform which dedicates forums for different kinds of faculties in NUS, while also serving as a collection of utilities for students to use during their study. This app wil support several features:
+This companion app, named Weavin, allows online users (authenticated by JWT) to gather on a social platform which dedicates forums for different kinds of faculties in NUS, while also serving as a collection of utilities for students to use during their study. This app wil support several features:
 
-* **User authentication and registration:** Users can sign up for an account, authenticated by their username and password.
-* **Anonymous post creation:** Author can create new posts with a title, text content and several tags anonymously, facilitating an open discussion environment.
-* **Post management:** Authors can view, edit, and delete their own posts.
-* **Commenting and Liking:** Users can add and edit comments and add likes to posts. 
-* **Calendar Creator** Users can add and edit courses to their calendars to view their schedules efficiently on their phones.
+* **Anonymous Forum Discussion:** Users can create new posts with a title, text content and several tags anonymously, facilitating an open discussion environment. Users can also add comments likes to posts. 
 * **GPA Calculator** Users can insert courses and scores into the calculator, which then calculates their pre-SU and post-SU GPA.
+* **Calendar Creator** Users can add and edit courses to their calendars to view their schedules efficiently on their phones.
+* **Chatting Rooms** Users directly communicate with other people in private chatting rooms with built-in reporting and safety measures.
+* **Flea Market** Users can sell and buy unused items to others on an open market, bargaining prices in chatting rooms if necessary.
 
 ## Getting Started
 
