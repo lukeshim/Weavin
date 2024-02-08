@@ -1,9 +1,5 @@
 package Weavin.Entities;
 
-import Weavin.Entities.Comment;
-import Weavin.Entities.ForumPost;
-import Weavin.Entities.MarketPost;
-import Weavin.Entities.Semester;
 import Weavin.Enums.Field;
 import Weavin.Enums.Presence;
 import Weavin.Enums.ReportStatus;
@@ -26,6 +22,9 @@ public class User{
 
     @Column()
     private String username;
+
+    @Column()
+    private boolean usernameAlreadyChanged;
 
     @Column()
     private String email;
