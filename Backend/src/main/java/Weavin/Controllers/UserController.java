@@ -36,6 +36,7 @@ public class UserController {
     private void createUser(@RequestBody User user) {
         this.userRepository.save(user);
     }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable Integer id) {
