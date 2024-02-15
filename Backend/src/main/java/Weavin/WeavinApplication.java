@@ -1,4 +1,4 @@
-package NUS_CodingProject.Weavin;
+package Weavin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
