@@ -28,7 +28,11 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User userToBeFound = userOptional.get();
-        return userToBeFound;
+        if (userToBeFound.getReportStatus() == ReportStatus.DANGEROUS) {
+            return generateReportedUser();
+        } else {
+            return userToBeFound;
+        }
     }
 
     // POST request to create a user
@@ -133,17 +137,22 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public void reportUser(@PathVariable Integer id) {
         Optional<User> userOptional = this.userRepository.findById(id);
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         user.setReports(user.getReports() + 1);
         if (user.getReports() >= 15) {
             user.setReportStatus(ReportStatus.DANGEROUS);
-        } else if (user.getReports() >= 7) {
-            user.setReportStatus(ReportStatus.WARNING);
-        }
+        } else if (user.getReports() >= 7) user.setReportStatus(ReportStatus.WARNING);
         this.userRepository.save(user);
+    }
+
+    // Generate a reported user with no information besides report status
+    private User generateReportedUser() {
+        User reportedUser = new User();
+        reportedUser.setReportStatus(ReportStatus.DANGEROUS);
+        return reportedUser;
     }
 }
 

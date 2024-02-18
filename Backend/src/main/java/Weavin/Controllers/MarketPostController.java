@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.yaml.snakeyaml.error.Mark;
 
 import java.util.Date;
 import java.util.List;
@@ -28,8 +29,8 @@ public class MarketPostController {
     // GET request to get all market posts
     @GetMapping("/marketposts")
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<MarketPost> getAllMarketPosts() {
-        return marketPostRepository.findAll();
+    public List<MarketPost> getAllMarketPosts() {
+        return marketPostRepository.findByReportStatusFalse();
     }
 
     // GET request to get specific market post by id
@@ -38,9 +39,13 @@ public class MarketPostController {
     public MarketPost getMarketPostById(@PathVariable int marketPostId) {
         MarketPost marketPost = marketPostRepository.findById(marketPostId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found with id: " + marketPostId));
-        marketPost.setViews(marketPost.getViews() + 1);
-        this.marketPostRepository.save(marketPost);
-        return marketPost;
+        if (marketPost.isReportStatus()) {
+            return generateReportedMarketPost();
+        } else {
+            marketPost.setViews(marketPost.getViews() + 1);
+            this.marketPostRepository.save(marketPost);
+            return marketPost;
+        }
     }
 
     // GET request to get all market posts by a specific user
@@ -52,7 +57,7 @@ public class MarketPostController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
-        return this.marketPostRepository.findByUser(user);
+        return this.marketPostRepository.findByUserAndReportStatusFalse(user);
     }
 
     // POST request to post a new market post by a specified user
@@ -99,7 +104,7 @@ public class MarketPostController {
     }
 
     // DELETE request to delete market post
-    @DeleteMapping("{marketPostId}")
+    @DeleteMapping("marketposts/{marketPostId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteMarketPost(@PathVariable int marketPostId) {
         MarketPost marketPost = marketPostRepository.findById(marketPostId)
@@ -117,6 +122,16 @@ public class MarketPostController {
         }
         MarketPost marketPost = marketPostOptional.get();
         marketPost.setReports(marketPost.getReports() + 1);
+        if (marketPost.getReports() > 15) {
+            marketPost.setReportStatus(true);
+        }
         this.marketPostRepository.save(marketPost);
+    }
+
+    // Generate market post with reported flag
+    private MarketPost generateReportedMarketPost() {
+        MarketPost reportedMarketPost = new MarketPost();
+        reportedMarketPost.setReportStatus(true);
+        return reportedMarketPost;
     }
 }

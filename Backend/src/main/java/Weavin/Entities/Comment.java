@@ -1,5 +1,6 @@
 package Weavin.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Comment{
     @Column()
     private int likes;
 
+    @JsonIgnore
     @Column()
     private int reports;
 
@@ -37,10 +39,12 @@ public class Comment{
     @JoinColumn(name = "user", referencedColumnName = "id")
     private User user;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "marketPost", referencedColumnName = "id")
     private MarketPost marketPost;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "forumPost", referencedColumnName = "id")
     private ForumPost forumPost;
