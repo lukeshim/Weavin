@@ -3,6 +3,7 @@ package Weavin.Controllers;
 import Weavin.Entities.MarketPost;
 import Weavin.Repositories.MarketPostRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,10 +12,11 @@ import java.util.Date;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("api/marketPosts")
+@RequestMapping("/marketposts")
 public class MarketPostController {
 
-    private final MarketPostRepository marketPostRepository;
+    @Autowired
+    private MarketPostRepository marketPostRepository;
 
     // Create MarketPost REST API
     @PostMapping
@@ -23,8 +25,8 @@ public class MarketPostController {
     }
 
     // Get MarketPost by id REST API
-    @GetMapping("{id}")
-    public MarketPost getMarketPostById(@PathVariable("id") int marketPostId) {
+    @GetMapping("/{marketPostId}")
+    public MarketPost getMarketPostById(@PathVariable int marketPostId) {
         return marketPostRepository.findById(marketPostId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found with id: " + marketPostId));
     }
@@ -36,8 +38,9 @@ public class MarketPostController {
     }
 
     // Update MarketPost REST API
-    @PutMapping("{id}")
-    public void updateMarketPost(@PathVariable("id") int marketPostId, @RequestBody MarketPost marketPost) {
+    @PutMapping("/{marketPostId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateMarketPost(@PathVariable int marketPostId, @RequestBody MarketPost marketPost) {
         MarketPost existingMarketPost = marketPostRepository.findById(marketPostId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found with id: " + marketPostId));
 
@@ -59,8 +62,9 @@ public class MarketPostController {
     }
 
     // Delete MarketPost REST API
-    @DeleteMapping("{id}")
-    public void deleteMarketPost(@PathVariable("id") int marketPostId) {
+    @DeleteMapping("{marketPostId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteMarketPost(@PathVariable int marketPostId) {
         MarketPost marketPost = marketPostRepository.findById(marketPostId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found with id: " + marketPostId));
         marketPostRepository.delete(marketPost);

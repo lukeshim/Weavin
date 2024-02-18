@@ -20,37 +20,37 @@ public class User{
     @GeneratedValue
     private int id;
 
-    @Column()
+    @Column
     private String username;
 
-    @Column()
+    @Column
     private boolean usernameAlreadyChanged;
 
-    @Column()
+    @Column
     private String email;
 
-    @Column()
+    @Column
     private String password;
 
-    @Column()
+    @Column
     private Date lastSeenAt;
 
-    @Column()
+    @Column
     private String profilePhoto;
 
     @Enumerated(EnumType.STRING)
-    @Column()
+    @Column
     private Presence presence;
 
     @Enumerated(EnumType.STRING)
-    @Column()
+    @Column
     private Field field;
 
-    @Column()
+    @Column
     private int reports;
 
     @Enumerated(EnumType.STRING)
-    @Column()
+    @Column
     private ReportStatus reportStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
