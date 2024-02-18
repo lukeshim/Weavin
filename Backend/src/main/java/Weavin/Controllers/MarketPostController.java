@@ -1,5 +1,6 @@
 package Weavin.Controllers;
 
+import Weavin.Entities.ForumPost;
 import Weavin.Entities.MarketPost;
 import Weavin.Repositories.MarketPostRepository;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -59,6 +61,17 @@ public class MarketPostController {
         existingMarketPost.setCommentList(marketPost.getCommentList());
 
         marketPostRepository.save(existingMarketPost);
+    }
+    //Add likes on the market post
+    @PutMapping("/{marketPostId}/likes")
+    public void addLikes(@PathVariable int id) {
+        Optional<MarketPost> existingMarketPost = marketPostRepository.findById(id);
+        if (existingMarketPost.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Market post not found.");
+        }
+        MarketPost updatedMarketPost = existingMarketPost.get();
+        updatedMarketPost.setLikes(updatedMarketPost.getLikes() + 1);
+        marketPostRepository.save(updatedMarketPost);
     }
 
     // Delete MarketPost REST API

@@ -56,8 +56,8 @@ public class ForumPostController {
     }
 
     // PUT request to update forum post content
-    @PutMapping("/{id}")
-    public ResponseEntity<ForumPost> updateForumPost(@PathVariable int id, @RequestBody ForumPost forumPost) {
+    @PutMapping("/forumposts/{id}")
+    public void updateForumPost(@PathVariable int id, @RequestBody ForumPost forumPost) {
         Optional<ForumPost> existingForumPost = forumPostRepository.findById(id);
         if (existingForumPost.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post not found.");
@@ -67,12 +67,22 @@ public class ForumPostController {
         updatedForumPost.setUpdated(true);
         updatedForumPost.setBody(forumPost.getBody());
         updatedForumPost.setField(forumPost.getField());
-        return new ResponseEntity<>(updatedForumPost, HttpStatus.OK);
+        forumPostRepository.save(updatedForumPost);
+    }
+    @PutMapping("/forumposts/{forumPostId}/likes")
+    public void addLikes(@PathVariable int id) {
+        Optional<ForumPost> existingForumPost = forumPostRepository.findById(id);
+        if (existingForumPost.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post not found.");
+        }
+        ForumPost updatedForumPost = existingForumPost.get();
+        updatedForumPost.setLikes(updatedForumPost.getLikes() + 1);
+        forumPostRepository.save(updatedForumPost);
     }
 
     // DELETE request to delete forum post
-    @DeleteMapping("/forumposts/{id}")
-    public ResponseEntity<String> deleteForumPost(@PathVariable("id") int id) {
+    @DeleteMapping("/forumposts/{forumPostId}")
+    public ResponseEntity<String> deleteForumPost(@PathVariable("forumPostId") int id) {
         forumPostRepository.deleteById(id);
         return new ResponseEntity<>("Forum post successfully deleted!", HttpStatus.OK);
     }

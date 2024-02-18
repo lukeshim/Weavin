@@ -18,30 +18,40 @@ import java.util.Optional;
 
 @RestController
 @ResponseStatus(HttpStatus.CREATED)
-@RequestMapping(value={"/forumposts/{forumpostid}/comments", "/marketposts/{marketpostid}/comments"})
 public class CommentController {
 
     @Autowired
     private CommentRepository commentRepository;
 
-    @GetMapping("/{id}")
+    @GetMapping("/marketPost/{marketPostId}/comments/{commentid}")
     @ResponseStatus(HttpStatus.OK)
-    public Comment findById(@PathVariable Integer id) {
+    public Comment findMarketPostCommentById(@PathVariable Integer id) {
         Optional<Comment> commentOptional = this.commentRepository.findById(id);
         if (commentOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "comment does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found.");
         }
         Comment commentToBeFound = commentOptional.get();
         return commentToBeFound;
     }
 
-    @PostMapping()
+    @GetMapping("/forumPosts/{forumPostId}/comments/{commentid}")
+    @ResponseStatus(HttpStatus.OK)
+    public Comment findForumPostCommentById(@PathVariable Integer id) {
+        Optional<Comment> commentOptional = this.commentRepository.findById(id);
+        if (commentOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found.");
+        }
+        Comment commentToBeFound = commentOptional.get();
+        return commentToBeFound;
+    }
+
+    @PostMapping("/comments")
     @ResponseStatus(HttpStatus.CREATED)
     private void createComment(@RequestBody Comment comment) {
         this.commentRepository.save(comment);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteComment(@PathVariable Integer id) {
         Optional<Comment> commentOptional = this.commentRepository.findById(id);
@@ -51,8 +61,8 @@ public class CommentController {
         Comment commentToBeDeleted = commentOptional.get();
         this.commentRepository.delete(commentToBeDeleted);
     }
-    @PutMapping("/{id}")
-    public void updateComment(@PathVariable("id") int id, @RequestBody Comment comment) {
+    @PutMapping("/comments/{commentId}")
+    public void updateComment(@PathVariable("commentId") int id, @RequestBody Comment comment) {
         comment.setId(id);
         Optional<Comment> existingComment = commentRepository.findById(comment.getId());
         if (existingComment.isEmpty()) {
@@ -63,6 +73,17 @@ public class CommentController {
         updatedComment.setLikes(comment.getLikes());
         updatedComment.setBody(comment.getBody());
         updatedComment.setReports(comment.getReports());
+        commentRepository.save(updatedComment);
+    }
+
+    @PutMapping("/commentId")
+    public void addLikes(@PathVariable int id) {
+        Optional<Comment> existingComment = commentRepository.findById(id);
+        if (existingComment.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found.");
+        }
+        Comment updatedComment = existingComment.get();
+        updatedComment.setLikes(updatedComment.getLikes() + 1);
         commentRepository.save(updatedComment);
     }
 }
