@@ -15,6 +15,10 @@ public class Tag {
     @GeneratedValue
     private int id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private ForumPost forumPost;
+
     @Enumerated(EnumType.STRING)
     @Column
     private Field field;
