@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@AllArgsConstructor
 public class ForumPostController {
 
     @Autowired
@@ -64,7 +65,7 @@ public class ForumPostController {
     public void createForumPost(@PathVariable int userId, @RequestBody ForumPost forumPost) {
         Optional<User> userOptional = this.userRepository.findById(userId);
         if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         forumPost.setUser(user);
@@ -89,8 +90,7 @@ public class ForumPostController {
         this.forumPostRepository.save(updatedForumPost);
     }
 
-    // DELETE request to delete forum post
-
+    // PUT request to add likes to a forum post
     @PutMapping("/forumposts/{forumPostId}/likes")
     public void addLikes(@PathVariable int id) {
         Optional<ForumPost> existingForumPost = forumPostRepository.findById(id);
@@ -108,7 +108,7 @@ public class ForumPostController {
         forumPostRepository.deleteById(id);
     }
 
-    // PUT request to report a user
+    // PUT request to report a forum post
     @PutMapping("/forumposts/{id}/report")
     @ResponseStatus(HttpStatus.OK)
     public void reportForumPost(@PathVariable int id) {
