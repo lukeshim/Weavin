@@ -90,9 +90,21 @@ public class ForumPostController {
     }
 
     // DELETE request to delete forum post
-    @DeleteMapping("/forumposts/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteForumPost(@PathVariable("id") int id) {
+
+    @PutMapping("/forumposts/{forumPostId}/likes")
+    public void addLikes(@PathVariable int id) {
+        Optional<ForumPost> existingForumPost = forumPostRepository.findById(id);
+        if (existingForumPost.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post not found.");
+        }
+        ForumPost updatedForumPost = existingForumPost.get();
+        updatedForumPost.setLikes(updatedForumPost.getLikes() + 1);
+        forumPostRepository.save(updatedForumPost);
+    }
+
+    // DELETE request to delete forum post
+    @DeleteMapping("/forumposts/{forumPostId}")
+    public void deleteForumPost(@PathVariable("forumPostId") int id) {
         forumPostRepository.deleteById(id);
     }
 
