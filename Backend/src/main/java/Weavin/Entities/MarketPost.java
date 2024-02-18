@@ -47,8 +47,9 @@ public class MarketPost {
     @Column()
     private int reports;
 
+    @JsonIgnore
     @Column()
-    private boolean reportStatus;
+    private boolean reportStatus = false;
 
     @Column()
     private int views;

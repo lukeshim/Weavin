@@ -3,12 +3,9 @@ import Weavin.Entities.ForumPost;
 import Weavin.Entities.User;
 import Weavin.Repositories.ForumPostRepository;
 import Weavin.Repositories.UserRepository;
-import jakarta.servlet.annotation.HttpConstraint;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,11 +23,11 @@ public class ForumPostController {
     @Autowired
     private UserRepository userRepository;
 
-    // GET request to get all forum posts
+    // GET request to get all forum posts that are not banned
     @GetMapping("/forumposts")
     @ResponseStatus(HttpStatus.OK)
     public Iterable<ForumPost> getForumPosts() {
-        return forumPostRepository.findAll();
+        return this.forumPostRepository.findByReportStatusFalse();
     }
 
     // GET request to get specific forum post by id
@@ -42,9 +39,13 @@ public class ForumPostController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post not found.");
         }
         ForumPost forumPost = forumPostOptional.get();
-        forumPost.setViews(forumPost.getViews() + 1);
-        this.forumPostRepository.save(forumPost);
-        return forumPost;
+        if (forumPost.isReportStatus()) {
+            return generateReportedForumPost();
+        } else {
+            forumPost.setViews(forumPost.getViews() + 1);
+            this.forumPostRepository.save(forumPost);
+            return forumPost;
+        }
     }
 
     // GET request to get all forum posts by a specific user
@@ -56,7 +57,7 @@ public class ForumPostController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
-        return this.forumPostRepository.findByUser(user);
+        return this.forumPostRepository.findByUserAndReportStatusFalse(user);
     }
 
     // POST request to post a new forum post by specified user
@@ -118,6 +119,16 @@ public class ForumPostController {
         }
         ForumPost forumPost = forumPostOptional.get();
         forumPost.setReports(forumPost.getReports() + 1);
+        if (forumPost.getReports() > 15) {
+            forumPost.setReportStatus(true);
+        }
         this.forumPostRepository.save(forumPost);
+    }
+
+    // Generate blank forum post with report flag
+    private ForumPost generateReportedForumPost() {
+        ForumPost reportedForumPost = new ForumPost();
+        reportedForumPost.setReportStatus(true);
+        return reportedForumPost;
     }
 }
