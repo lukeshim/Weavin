@@ -28,7 +28,7 @@ public class TagController {
     public Tag findById(@PathVariable Integer id) {
         Optional<Tag> tagOptional = this.tagRepository.findById((id));
         if (tagOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tag does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tag not found");
         }
         Tag tagToBeFound = tagOptional.get();
         return tagToBeFound;
@@ -43,7 +43,7 @@ public class TagController {
     public void deleteTag(@PathVariable Integer id) {
         Optional<Tag> tagOptional = this.tagRepository.findById((id));
         if (tagOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tag does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tag not found.");
         }
         Tag tagToBeDeleted = tagOptional.get();
         this.tagRepository.delete(tagToBeDeleted);

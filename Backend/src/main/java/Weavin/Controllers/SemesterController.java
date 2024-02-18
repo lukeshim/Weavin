@@ -27,7 +27,7 @@ public class SemesterController {
     public Semester findById(@PathVariable Integer id) {
         Optional<Semester> semesterOptional = this.semesterRepository.findById(id);
         if (!semesterOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester not found.");
         }
         return semesterOptional.get();
     }
@@ -43,7 +43,7 @@ public class SemesterController {
     public void deleteSemester(@PathVariable Integer id) {
         Optional<Semester> semesterOptional = this.semesterRepository.findById(id);
         if (!semesterOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester not found.");
         }
         this.semesterRepository.delete(semesterOptional.get());
     }
@@ -53,7 +53,7 @@ public class SemesterController {
     public void updateSemester(@PathVariable Integer id, @RequestBody Semester newSemesterData) {
         Optional<Semester> semesterOptional = this.semesterRepository.findById(id);
         if (!semesterOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester not found.");
         }
         Semester semester = semesterOptional.get();
         semester.setUser(newSemesterData.getUser());
@@ -68,7 +68,7 @@ public class SemesterController {
     public void updateGPA(@PathVariable Integer id, @RequestBody UpdateGPARequest gpaRequest) {
         Optional<Semester> semesterOptional = semesterRepository.findById(id);
         if (!semesterOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester not found.");
         }
         Semester semester = semesterOptional.get();
         semester.setPreSuGpa(gpaRequest.getPreSuGpa());
@@ -81,7 +81,7 @@ public class SemesterController {
     public void addCourseToSemester(@PathVariable Integer id, @RequestBody Course course) {
         Optional<Semester> semesterOptional = semesterRepository.findById(id);
         if (!semesterOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester not found.");
         }
         Semester semester = semesterOptional.get();
         course.setSemester(semester);

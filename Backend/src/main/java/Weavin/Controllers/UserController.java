@@ -56,7 +56,7 @@ public class UserController {
     public void updatePresence(@PathVariable Integer id, @PathVariable String status) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         if (status.equals("offline")) {
@@ -77,7 +77,7 @@ public class UserController {
     public void updateLastSeen(@PathVariable Integer id) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         user.setLastSeenAt(new Date());
@@ -103,7 +103,7 @@ public class UserController {
     public void updateUsername(@PathVariable Integer id, @RequestBody String username) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         if (!user.isUsernameAlreadyChanged()) {
@@ -120,7 +120,7 @@ public class UserController {
     public void updateProfile(@PathVariable Integer id, @RequestBody User newUser) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (!userOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         user.setProfilePhoto(newUser.getProfilePhoto());
@@ -134,7 +134,7 @@ public class UserController {
     public void reportUser(@PathVariable Integer id) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (!userOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         user.setReports(user.getReports() + 1);
@@ -152,7 +152,7 @@ public class UserController {
     public ReportStatus getReportStatus(@PathVariable Integer id) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (!userOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         return user.getReportStatus();

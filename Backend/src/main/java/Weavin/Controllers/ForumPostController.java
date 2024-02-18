@@ -38,7 +38,7 @@ public class ForumPostController {
     public ForumPost getForumPostById(@PathVariable("forumPostId") Integer id) {
         Optional<ForumPost> forumPostOptional = this.forumPostRepository.findById(id);
         if (forumPostOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post not found.");
         }
         ForumPost forumPost = forumPostOptional.get();
         forumPost.setViews(forumPost.getViews() + 1);
@@ -52,7 +52,7 @@ public class ForumPostController {
     public List<ForumPost> getUserForumPosts(@PathVariable Integer userId) {
         Optional<User> userOptional = this.userRepository.findById(userId);
         if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         return this.forumPostRepository.findByUser(user);
@@ -114,7 +114,7 @@ public class ForumPostController {
     public void reportForumPost(@PathVariable int id) {
         Optional<ForumPost> forumPostOptional = this.forumPostRepository.findById(id);
         if (forumPostOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post not found.");
         }
         ForumPost forumPost = forumPostOptional.get();
         forumPost.setReports(forumPost.getReports() + 1);
