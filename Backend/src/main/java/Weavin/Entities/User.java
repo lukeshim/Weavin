@@ -56,9 +56,8 @@ public class User {
     private int reports;
 
     @Enumerated(EnumType.STRING)
-    @JsonIgnore
     @Column
-    private ReportStatus reportStatus;
+    private ReportStatus reportStatus = ReportStatus.SAFE;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")

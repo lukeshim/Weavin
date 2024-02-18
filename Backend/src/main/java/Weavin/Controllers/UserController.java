@@ -74,13 +74,13 @@ public class UserController {
     // PUT request to update user's last-seen-at field
     @PutMapping("/{id}/last-seen-at")
     @ResponseStatus(HttpStatus.OK)
-    public void updateLastSeen(@PathVariable Integer id, @RequestBody Date date) {
+    public void updateLastSeen(@PathVariable Integer id) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (userOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
         }
         User user = userOptional.get();
-        user.setLastSeenAt(date);
+        user.setLastSeenAt(new Date());
         this.userRepository.save(user);
     }
 
@@ -98,7 +98,6 @@ public class UserController {
     }
 
     // PUT request to update user's username (can only be done once)
-
     @PutMapping("/{id}/username/update")
     @ResponseStatus(HttpStatus.OK)
     public void updateUsername(@PathVariable Integer id, @RequestBody String username) {
