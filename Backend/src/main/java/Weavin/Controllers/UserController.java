@@ -25,7 +25,7 @@ public class UserController {
     public User findById(@PathVariable Integer id) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User userToBeFound = userOptional.get();
         return userToBeFound;
@@ -44,7 +44,7 @@ public class UserController {
     public void deleteUser(@PathVariable Integer id) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User userToBeDeleted = userOptional.get();
         this.userRepository.delete(userToBeDeleted);
@@ -66,7 +66,7 @@ public class UserController {
         } else if (status.equals("idle")) {
             user.setPresence(Presence.IDLE);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Presence type not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Presence type not found.");
         }
         this.userRepository.save(user);
     }
@@ -90,7 +90,7 @@ public class UserController {
     public void updatePassword(@PathVariable Integer id, @RequestBody String password) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (!userOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         user.setPassword(password);
@@ -110,7 +110,7 @@ public class UserController {
             user.setUsername(username);
             this.userRepository.save(user);
         } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User has already changed username once");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User has already changed username once.");
         }
     }
 

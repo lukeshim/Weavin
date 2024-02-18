@@ -60,7 +60,7 @@ public class MarketPostController {
     public void createMarketPost(@PathVariable int userId, @RequestBody MarketPost marketPost) {
         Optional<User> userOptional = this.userRepository.findById(userId);
         if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         marketPost.setUser(user);
@@ -103,7 +103,7 @@ public class MarketPostController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteMarketPost(@PathVariable int marketPostId) {
         MarketPost marketPost = marketPostRepository.findById(marketPostId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Market post not found."));
         marketPostRepository.delete(marketPost);
     }
 
@@ -113,7 +113,7 @@ public class MarketPostController {
     public void reportMarketPost(@PathVariable int id) {
         Optional<MarketPost> marketPostOptional = this.marketPostRepository.findById(id);
         if (marketPostOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Market post not found.");
         }
         MarketPost marketPost = marketPostOptional.get();
         marketPost.setReports(marketPost.getReports() + 1);

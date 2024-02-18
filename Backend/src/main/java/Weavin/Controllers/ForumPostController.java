@@ -65,7 +65,7 @@ public class ForumPostController {
     public void createForumPost(@PathVariable int userId, @RequestBody ForumPost forumPost) {
         Optional<User> userOptional = this.userRepository.findById(userId);
         if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User user = userOptional.get();
         forumPost.setUser(user);
