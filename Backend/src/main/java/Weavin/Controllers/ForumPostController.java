@@ -108,7 +108,7 @@ public class ForumPostController {
         forumPostRepository.deleteById(id);
     }
 
-    // PUT request to report a user
+    // PUT request to report a forum post
     @PutMapping("/forumposts/{id}/report")
     @ResponseStatus(HttpStatus.OK)
     public void reportForumPost(@PathVariable int id) {
