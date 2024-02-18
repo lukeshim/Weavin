@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    //GET request to get specific user information, including their posts, comments and classes
+    // GET request to get specific user information (not including posts and other content)
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User findById(@PathVariable Integer id) {
@@ -31,14 +31,14 @@ public class UserController {
         return userToBeFound;
     }
 
-    //POST request to create a user
-    @PostMapping()
+    // POST request to create a user
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     private void createUser(@RequestBody User user) {
         this.userRepository.save(user);
     }
 
-    //DELETE request to delete a user
+    // DELETE request to delete a user
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable Integer id) {
@@ -50,7 +50,7 @@ public class UserController {
         this.userRepository.delete(userToBeDeleted);
     }
 
-    //PUT request to update user's presence status
+    // PUT request to update user's presence status
     @PutMapping("/{id}/presence/{status}")
     @ResponseStatus(HttpStatus.OK)
     public void updatePresence(@PathVariable Integer id, @PathVariable String status) {
@@ -68,9 +68,10 @@ public class UserController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Presence type not found");
         }
+        this.userRepository.save(user);
     }
 
-    //PUT request to update user's last-seen-at field
+    // PUT request to update user's last-seen-at field
     @PutMapping("/{id}/last-seen-at")
     @ResponseStatus(HttpStatus.OK)
     public void updateLastSeen(@PathVariable Integer id, @RequestBody Date date) {
@@ -80,9 +81,10 @@ public class UserController {
         }
         User user = userOptional.get();
         user.setLastSeenAt(date);
+        this.userRepository.save(user);
     }
 
-    //PUT request to update user's password
+    // PUT request to update user's password
     @PutMapping("/{id}/password/update")
     @ResponseStatus(HttpStatus.OK)
     public void updatePassword(@PathVariable Integer id, @RequestBody String password) {
@@ -92,9 +94,10 @@ public class UserController {
         }
         User user = userOptional.get();
         user.setPassword(password);
+        this.userRepository.save(user);
     }
 
-    //PUT request to update user's username (can only be done once)
+    // PUT request to update user's username (can only be done once)
 
     @PutMapping("/{id}/username/update")
     @ResponseStatus(HttpStatus.OK)
@@ -106,12 +109,13 @@ public class UserController {
         User user = userOptional.get();
         if (!user.isUsernameAlreadyChanged()) {
             user.setUsername(username);
+            this.userRepository.save(user);
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User has already changed username once");
         }
     }
 
-    //PUT request to update user's profile information
+    // PUT request to update user's profile information
     @PutMapping("/{id}/profile")
     @ResponseStatus(HttpStatus.OK)
     public void updateProfile(@PathVariable Integer id, @RequestBody User newUser) {
@@ -122,9 +126,10 @@ public class UserController {
         User user = userOptional.get();
         user.setProfilePhoto(newUser.getProfilePhoto());
         user.setField(newUser.getField());
+        this.userRepository.save(user);
     }
 
-    //PUT request to report a user
+    // PUT request to report a user
     @PutMapping("/{id}/report")
     @ResponseStatus(HttpStatus.OK)
     public void reportUser(@PathVariable Integer id) {
@@ -139,9 +144,10 @@ public class UserController {
         } else if (user.getReports() >= 7) {
             user.setReportStatus(ReportStatus.WARNING);
         }
+        this.userRepository.save(user);
     }
 
-    //GET request to get user's current report status
+    // GET request to get user's current report status
     @GetMapping("/{id}/reportstatus")
     @ResponseStatus(HttpStatus.OK)
     public ReportStatus getReportStatus(@PathVariable Integer id) {

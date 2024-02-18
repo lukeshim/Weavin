@@ -2,6 +2,8 @@ package Weavin.Controllers;
 import Weavin.Entities.ForumPost;
 import Weavin.Entities.User;
 import Weavin.Repositories.ForumPostRepository;
+import Weavin.Repositories.UserRepository;
+import jakarta.servlet.annotation.HttpConstraint;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,35 +16,46 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@AllArgsConstructor
-@RequestMapping("/forumposts")
 public class ForumPostController {
 
     @Autowired
     private ForumPostRepository forumPostRepository;
 
-    @GetMapping
-    public ResponseEntity<Iterable<ForumPost>> getForumPosts() {
-        Iterable<ForumPost> forumPosts = forumPostRepository.findAll();
-        return new ResponseEntity<>(forumPosts, HttpStatus.OK);
+    @Autowired
+    private UserRepository userRepository;
+
+    // GET request to get all forum posts
+    @GetMapping("/forumposts")
+    @ResponseStatus(HttpStatus.OK)
+    public Iterable<ForumPost> getForumPosts() {
+        return forumPostRepository.findAll();
     }
 
-    @GetMapping("/{forumPostId}")
-    public ResponseEntity<ForumPost> getForumPostById(@PathVariable("forumPostId") Integer id) {
+    // GET request to get specific forum post by id
+    @GetMapping("/forumposts/{forumPostId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ForumPost getForumPostById(@PathVariable("forumPostId") Integer id) {
         Optional<ForumPost> forumPostOptional = this.forumPostRepository.findById(id);
         if (forumPostOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post does not exist");
         }
-        ForumPost forumPost = forumPostOptional.get();
-        return new ResponseEntity<>(forumPost, HttpStatus.OK);
+        return forumPostOptional.get();
     }
 
-    @PostMapping
-    public ResponseEntity<ForumPost> createForumPost(@RequestBody ForumPost forumPost) {
-        ForumPost forumPost1 = this.forumPostRepository.save(forumPost);
-        return new ResponseEntity<> (forumPost1, HttpStatus.CREATED);
+    // POST request to post a new forum by specified user
+    @PostMapping("/users/{userId}/forumposts/{forumPostId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createForumPost(@PathVariable int userId, @RequestBody ForumPost forumPost) {
+        Optional<User> userOptional = this.userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+        }
+        User user = userOptional.get();
+        forumPost.setUser(user);
+        this.forumPostRepository.save(forumPost);
     }
 
+    // PUT request to update forum post content
     @PutMapping("/{id}")
     public ResponseEntity<ForumPost> updateForumPost(@PathVariable int id, @RequestBody ForumPost forumPost) {
         Optional<ForumPost> existingForumPost = forumPostRepository.findById(id);
@@ -54,15 +67,11 @@ public class ForumPostController {
         updatedForumPost.setUpdated(true);
         updatedForumPost.setBody(forumPost.getBody());
         updatedForumPost.setField(forumPost.getField());
-        updatedForumPost.setLikes(forumPost.getLikes());
-        updatedForumPost.setCommentList(forumPost.getCommentList());
-        updatedForumPost.setTagList(forumPost.getTagList());
-        updatedForumPost.setViews(forumPost.getViews());
-        updatedForumPost.setReports(forumPost.getReports());
         return new ResponseEntity<>(updatedForumPost, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    // DELETE request to delete forum post
+    @DeleteMapping("/forumposts/{id}")
     public ResponseEntity<String> deleteForumPost(@PathVariable("id") int id) {
         forumPostRepository.deleteById(id);
         return new ResponseEntity<>("Forum post successfully deleted!", HttpStatus.OK);
