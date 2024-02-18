@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -54,15 +55,15 @@ public class User{
     private ReportStatus reportStatus;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private ArrayList<MarketPost> marketPostList;
+    private List<MarketPost> marketPostList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private ArrayList<Comment> commentList;
+    private List<Comment> commentList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private ArrayList<Semester> semesterList;
+    private List<Semester> semesterList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private ArrayList<ForumPost> forumPostList;
+    private List<ForumPost> forumPostList;
 
 }

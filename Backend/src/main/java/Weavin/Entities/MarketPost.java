@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -60,6 +61,6 @@ public class MarketPost {
     private int stock;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "marketPost")
-    private ArrayList<Comment> commentList;
+    private List<Comment> commentList;
 
 }

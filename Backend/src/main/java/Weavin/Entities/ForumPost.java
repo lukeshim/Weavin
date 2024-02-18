@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Setter
@@ -53,9 +54,9 @@ public class ForumPost {
     private boolean reportStatus;
 
     @OneToMany(mappedBy = "forumPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ArrayList<Comment> commentList;
+    private List<Comment> commentList;
 
     @OneToMany(mappedBy = "forumPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ArrayList<Tag> tagList;
+    private List<Tag> tagList;
 
 }
