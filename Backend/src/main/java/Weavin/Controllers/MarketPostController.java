@@ -14,30 +14,37 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/marketposts")
 public class MarketPostController {
 
     @Autowired
     private MarketPostRepository marketPostRepository;
 
-    // Create MarketPost REST API
+    // GET request to get all market posts
+    @GetMapping("/marketposts")
+    @ResponseStatus(HttpStatus.OK)
+    public Iterable<MarketPost> getAllMarketPosts() {
+        return marketPostRepository.findAll();
+    }
+
+    // GET request to get specific market post by id
+    @GetMapping("/marketposts/{marketPostId}")
+    @ResponseStatus(HttpStatus.OK)
+    public MarketPost getMarketPostById(@PathVariable int marketPostId) {
+        MarketPost marketPost = marketPostRepository.findById(marketPostId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found with id: " + marketPostId));
+        marketPost.setViews(marketPost.getViews() + 1);
+        this.marketPostRepository.save(marketPost);
+        return marketPost;
+    }
+
+    // GET R
     @PostMapping
     public void createMarketPost(@RequestBody MarketPost marketPost) {
         marketPostRepository.save(marketPost);
     }
 
-    // Get MarketPost by id REST API
-    @GetMapping("/{marketPostId}")
-    public MarketPost getMarketPostById(@PathVariable int marketPostId) {
-        return marketPostRepository.findById(marketPostId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found with id: " + marketPostId));
-    }
 
-    // Get All MarketPosts REST API
-    @GetMapping
-    public Iterable<MarketPost> getAllMarketPosts() {
-        return marketPostRepository.findAll();
-    }
+
 
     // Update MarketPost REST API
     @PutMapping("/{marketPostId}")

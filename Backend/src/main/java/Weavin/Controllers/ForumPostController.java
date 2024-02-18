@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@AllArgsConstructor
 public class ForumPostController {
 
     @Autowired
@@ -89,8 +90,7 @@ public class ForumPostController {
         this.forumPostRepository.save(updatedForumPost);
     }
 
-    // DELETE request to delete forum post
-
+    // PUT request to add likes to a forum post
     @PutMapping("/forumposts/{forumPostId}/likes")
     public void addLikes(@PathVariable int id) {
         Optional<ForumPost> existingForumPost = forumPostRepository.findById(id);

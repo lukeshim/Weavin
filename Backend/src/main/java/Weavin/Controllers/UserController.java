@@ -145,17 +145,5 @@ public class UserController {
         }
         this.userRepository.save(user);
     }
-
-    // GET request to get user's current report status
-    @GetMapping("/{id}/reportstatus")
-    @ResponseStatus(HttpStatus.OK)
-    public ReportStatus getReportStatus(@PathVariable Integer id) {
-        Optional<User> userOptional = this.userRepository.findById(id);
-        if (!userOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
-        }
-        User user = userOptional.get();
-        return user.getReportStatus();
-    }
 }
 
