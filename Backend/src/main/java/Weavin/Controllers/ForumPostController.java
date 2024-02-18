@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,11 +40,26 @@ public class ForumPostController {
         if (forumPostOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post does not exist");
         }
-        return forumPostOptional.get();
+        ForumPost forumPost = forumPostOptional.get();
+        forumPost.setViews(forumPost.getViews() + 1);
+        this.forumPostRepository.save(forumPost);
+        return forumPost;
     }
 
-    // POST request to post a new forum by specified user
-    @PostMapping("/users/{userId}/forumposts/{forumPostId}")
+    // GET request to get all forum posts by a specific user
+    @GetMapping("/users/{userId}/forumposts")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ForumPost> getUserForumPosts(@PathVariable Integer userId) {
+        Optional<User> userOptional = this.userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+        }
+        User user = userOptional.get();
+        return this.forumPostRepository.findByUser(user);
+    }
+
+    // POST request to post a new forum post by specified user
+    @PostMapping("/users/{userId}/forumposts")
     @ResponseStatus(HttpStatus.CREATED)
     public void createForumPost(@PathVariable int userId, @RequestBody ForumPost forumPost) {
         Optional<User> userOptional = this.userRepository.findById(userId);
@@ -52,12 +68,14 @@ public class ForumPostController {
         }
         User user = userOptional.get();
         forumPost.setUser(user);
+        forumPost.setCreatedAt(new Date());
+        forumPost.setUpdatedAt(new Date());
         this.forumPostRepository.save(forumPost);
     }
 
     // PUT request to update forum post content
-    @PutMapping("/{id}")
-    public ResponseEntity<ForumPost> updateForumPost(@PathVariable int id, @RequestBody ForumPost forumPost) {
+    @PutMapping("/forumposts/{id}")
+    public void updateForumPost(@PathVariable int id, @RequestBody ForumPost forumPost) {
         Optional<ForumPost> existingForumPost = forumPostRepository.findById(id);
         if (existingForumPost.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post not found.");
@@ -67,14 +85,27 @@ public class ForumPostController {
         updatedForumPost.setUpdated(true);
         updatedForumPost.setBody(forumPost.getBody());
         updatedForumPost.setField(forumPost.getField());
-        return new ResponseEntity<>(updatedForumPost, HttpStatus.OK);
+        updatedForumPost.setUpdatedAt(new Date());
+        this.forumPostRepository.save(updatedForumPost);
     }
 
     // DELETE request to delete forum post
     @DeleteMapping("/forumposts/{id}")
-    public ResponseEntity<String> deleteForumPost(@PathVariable("id") int id) {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteForumPost(@PathVariable("id") int id) {
         forumPostRepository.deleteById(id);
-        return new ResponseEntity<>("Forum post successfully deleted!", HttpStatus.OK);
     }
 
+    // PUT request to report a user
+    @PutMapping("/forumposts/{id}/report")
+    @ResponseStatus(HttpStatus.OK)
+    public void reportForumPost(@PathVariable int id) {
+        Optional<ForumPost> forumPostOptional = this.forumPostRepository.findById(id);
+        if (forumPostOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post does not exist");
+        }
+        ForumPost forumPost = forumPostOptional.get();
+        forumPost.setReports(forumPost.getReports() + 1);
+        this.forumPostRepository.save(forumPost);
+    }
 }

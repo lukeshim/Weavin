@@ -1,5 +1,7 @@
 package Weavin.Entities;
 import Weavin.Enums.Field;
+import Weavin.Enums.ReportStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,11 +49,12 @@ public class ForumPost {
     @Column
     private int views;
 
+    @JsonIgnore
     @Column
     private int reports;
 
     @Column
-    private boolean reportStatus;
+    private boolean reportStatus = false;
 
     @OneToMany(mappedBy = "forumPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> commentList;
