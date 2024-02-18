@@ -47,7 +47,6 @@ public class MarketPost {
     @Column()
     private int reports;
 
-    @JsonIgnore
     @Column()
     private boolean reportStatus = false;
 

@@ -53,7 +53,6 @@ public class ForumPost {
     @Column
     private int reports;
 
-    @JsonIgnore
     @Column
     private boolean reportStatus = false;
 
