@@ -56,7 +56,7 @@ public class CommentController {
     public void deleteComment(@PathVariable Integer id) {
         Optional<Comment> commentOptional = this.commentRepository.findById(id);
         if (commentOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment does not exist");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found.");
         }
         Comment commentToBeDeleted = commentOptional.get();
         this.commentRepository.delete(commentToBeDeleted);

@@ -51,7 +51,7 @@ public class MarketPostController {
     @ResponseStatus(HttpStatus.OK)
     public void updateMarketPost(@PathVariable int marketPostId, @RequestBody MarketPost marketPost) {
         MarketPost existingMarketPost = marketPostRepository.findById(marketPostId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found with id: " + marketPostId));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found."));
 
         existingMarketPost.setProductName(marketPost.getProductName());
         existingMarketPost.setDescription(marketPost.getDescription());
@@ -86,7 +86,7 @@ public class MarketPostController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteMarketPost(@PathVariable int marketPostId) {
         MarketPost marketPost = marketPostRepository.findById(marketPostId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found with id: " + marketPostId));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found."));
         marketPostRepository.delete(marketPost);
     }
 }
