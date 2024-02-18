@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @ResponseStatus(HttpStatus.CREATED)
-@RequestMapping("/comments")
+@RequestMapping(value={"/forumposts/{forumpostid}/comments", "/marketposts/{marketpostid}/comments"})
 public class CommentController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class CommentController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Comment findById(@PathVariable Integer id) {
-        Optional<Comment> commentOptional = this.commentRepository.findById((id));
+        Optional<Comment> commentOptional = this.commentRepository.findById(id);
         if (commentOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "comment does not exist");
         }
@@ -44,7 +44,7 @@ public class CommentController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteComment(@PathVariable Integer id) {
-        Optional<Comment> commentOptional = this.commentRepository.findById((id));
+        Optional<Comment> commentOptional = this.commentRepository.findById(id);
         if (commentOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment does not exist");
         }
@@ -52,8 +52,7 @@ public class CommentController {
         this.commentRepository.delete(commentToBeDeleted);
     }
     @PutMapping("/{id}")
-    public void updateComment(@PathVariable("id") int id,
-                                                     @RequestBody Comment comment) {
+    public void updateComment(@PathVariable("id") int id, @RequestBody Comment comment) {
         comment.setId(id);
         Optional<Comment> existingComment = commentRepository.findById(comment.getId());
         if (existingComment.isEmpty()) {
@@ -64,7 +63,6 @@ public class CommentController {
         updatedComment.setLikes(comment.getLikes());
         updatedComment.setBody(comment.getBody());
         updatedComment.setReports(comment.getReports());
-
         commentRepository.save(updatedComment);
     }
 }
