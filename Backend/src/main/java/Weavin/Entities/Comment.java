@@ -20,7 +20,7 @@ public class Comment{
     private String body;
 
     @Column()
-    private Date createAt;
+    private Date createdAt;
 
     @Column()
     private Date updatedAt;
