@@ -87,10 +87,21 @@ public class MarketPostController {
         existingMarketPost.setUpdated(true);
         existingMarketPost.setPhoto(marketPost.getPhoto());
         existingMarketPost.setPrice(marketPost.getPrice());
-        existingMarketPost.setSold(marketPost.isSold());
         existingMarketPost.setStock(marketPost.getStock());
         this.marketPostRepository.save(existingMarketPost);
     }
+
+    // PUT request to update sold property in marketPost
+    @PutMapping("marketposts/{marketPostId}/sold")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateSoldMarketPost(@PathVariable int marketPostId) {
+        MarketPost existingMarketPost = marketPostRepository.findById(marketPostId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MarketPost not found."));
+
+        existingMarketPost.setSold(true);
+        this.marketPostRepository.save(existingMarketPost);
+    }
+
     // PUT request to add likes on the market post
     @PutMapping("/marketposts/{marketPostId}/like")
     public void addLikes(@PathVariable("marketPostId") int id) {

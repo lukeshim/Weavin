@@ -1,6 +1,7 @@
 package Weavin.Entities;
 
 import Weavin.Enums.Field;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class Tag {
     @GeneratedValue
     private int id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private ForumPost forumPost;

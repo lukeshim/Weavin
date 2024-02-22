@@ -56,7 +56,7 @@ public class MarketPost {
     private int likes;
 
     @Column()
-    private boolean sold;
+    private boolean sold = false;
 
     @Column()
     private int stock;
