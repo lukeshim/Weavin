@@ -61,7 +61,11 @@ public class MarketPost {
     @Column()
     private int stock;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "marketPost")
     private List<Comment> commentList;
+
+    @OneToMany(mappedBy = "marketPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Tag> tagList;
 
 }
