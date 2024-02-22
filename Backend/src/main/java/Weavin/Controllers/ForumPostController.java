@@ -30,7 +30,7 @@ public class ForumPostController {
         return this.forumPostRepository.findByReportStatusFalse();
     }
 
-    // GET request to get specific forum post by id, along with tags and comments
+    // GET request to get specific forum post by id, along with tags
     @GetMapping("/forumposts/{forumPostId}")
     @ResponseStatus(HttpStatus.OK)
     public ForumPost getForumPostById(@PathVariable("forumPostId") Integer id) {

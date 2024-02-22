@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.yaml.snakeyaml.error.Mark;
 
 @Entity
 @Getter
@@ -20,6 +21,11 @@ public class Tag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private ForumPost forumPost;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private MarketPost marketPost;
 
     @Enumerated(EnumType.STRING)
     @Column
