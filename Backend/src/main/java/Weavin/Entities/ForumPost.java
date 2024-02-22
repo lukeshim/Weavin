@@ -56,6 +56,7 @@ public class ForumPost {
     @Column
     private boolean reportStatus = false;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "forumPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> commentList;
 

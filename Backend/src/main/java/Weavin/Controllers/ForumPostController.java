@@ -23,14 +23,14 @@ public class ForumPostController {
     @Autowired
     private UserRepository userRepository;
 
-    // GET request to get all forum posts that are not banned
+    // GET request to get all forum posts that are not banned, along with tags and comments
     @GetMapping("/forumposts")
     @ResponseStatus(HttpStatus.OK)
     public Iterable<ForumPost> getForumPosts() {
         return this.forumPostRepository.findByReportStatusFalse();
     }
 
-    // GET request to get specific forum post by id
+    // GET request to get specific forum post by id, along with tags and comments
     @GetMapping("/forumposts/{forumPostId}")
     @ResponseStatus(HttpStatus.OK)
     public ForumPost getForumPostById(@PathVariable("forumPostId") Integer id) {
@@ -92,8 +92,8 @@ public class ForumPostController {
     }
 
     // PUT request to add likes to a forum post
-    @PutMapping("/forumposts/{forumPostId}/likes")
-    public void addLikes(@PathVariable int id) {
+    @PutMapping("/forumposts/{forumPostId}/like")
+    public void addLikes(@PathVariable("forumPostId") int id) {
         Optional<ForumPost> existingForumPost = forumPostRepository.findById(id);
         if (existingForumPost.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Forum post not found.");

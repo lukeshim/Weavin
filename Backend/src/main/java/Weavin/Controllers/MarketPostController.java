@@ -92,8 +92,8 @@ public class MarketPostController {
         this.marketPostRepository.save(existingMarketPost);
     }
     // PUT request to add likes on the market post
-    @PutMapping("/marketposts/{marketPostId}/likes")
-    public void addLikes(@PathVariable int id) {
+    @PutMapping("/marketposts/{marketPostId}/like")
+    public void addLikes(@PathVariable("marketPostId") int id) {
         Optional<MarketPost> existingMarketPost = marketPostRepository.findById(id);
         if (existingMarketPost.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Market post not found.");
