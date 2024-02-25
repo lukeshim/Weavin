@@ -1,5 +1,6 @@
 package Weavin.Entities;
 
+import Weavin.Enums.Season;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,12 +22,15 @@ public class Semester {
     private User user;
 
     @Column
-    private double preSuGpa;
+    private int academicYear;
 
     @Column
-    private double postSuGpa;
+    private Season season;
 
     @OneToMany(mappedBy = "semester", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Course> courseList;
+
+    @Column
+    private int numOfCourses;
 
 }
