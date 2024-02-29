@@ -6,10 +6,12 @@ import Weavin.Enums.ReportStatus;
 import Weavin.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
@@ -21,17 +23,24 @@ public class UserController {
 
     // GET request to get specific user information (not including posts and other content)
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public User findById(@PathVariable Integer id) {
+    public ResponseEntity<User> findById(@PathVariable Integer id) {
         Optional<User> userOptional = this.userRepository.findById(id);
         if (userOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         User userToBeFound = userOptional.get();
         if (userToBeFound.getReportStatus() == ReportStatus.DANGEROUS) {
-            return generateReportedUser();
+            return new ResponseEntity<>(generateReportedUser(), HttpStatus.OK);
         } else {
-            return userToBeFound;
+            User user = new User();
+            user.setId(userToBeFound.getId());
+            user.setUsername(userToBeFound.getUsername());
+            user.setLastSeenAt(userToBeFound.getLastSeenAt());
+            user.setProfilePhoto( userToBeFound.getProfilePhoto());
+            user.setPresence(userToBeFound.getPresence());
+            user.setField(userToBeFound.getField());
+            user.setReportStatus(userToBeFound.getReportStatus());
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
     }
 

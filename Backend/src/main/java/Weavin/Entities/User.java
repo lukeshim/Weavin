@@ -19,21 +19,19 @@ import java.util.List;
 public class User {
 
     @Id
+    @JsonIgnore
     @GeneratedValue
     private int id;
 
     @Column
     private String username;
 
-    @JsonIgnore
     @Column
     private boolean usernameAlreadyChanged;
 
-    @JsonIgnore
     @Column
     private String email;
 
-    @JsonIgnore
     @Column
     private String password;
 
