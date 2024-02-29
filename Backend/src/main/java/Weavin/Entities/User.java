@@ -29,11 +29,9 @@ public class User {
     @Column
     private boolean usernameAlreadyChanged;
 
-    @JsonIgnore
     @Column
     private String email;
 
-    @JsonIgnore
     @Column
     private String password;
 
