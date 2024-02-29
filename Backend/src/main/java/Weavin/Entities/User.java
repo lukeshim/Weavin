@@ -16,7 +16,8 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "USERS")
-public class User {
+public class
+User {
 
     @Id
     @JsonIgnore

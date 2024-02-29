@@ -138,7 +138,7 @@ public class CommentController {
     }
 
     // PUT request to report a comment
-    @PutMapping("/comments/{commentId}")
+    @PutMapping("/comments/{commentId}/report")
     @ResponseStatus(HttpStatus.OK)
     public void reportComment(@PathVariable("commentId") Integer id) {
         Optional<Comment> existingComment = commentRepository.findById(id);
