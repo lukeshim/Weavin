@@ -31,7 +31,15 @@ public class UserController {
         if (userToBeFound.getReportStatus() == ReportStatus.DANGEROUS) {
             return generateReportedUser();
         } else {
-            return userToBeFound;
+            User user = new User();
+            user.setId(userToBeFound.getId());
+            user.setUsername(userToBeFound.getUsername());
+            user.setLastSeenAt(userToBeFound.getLastSeenAt());
+            user.setProfilePhoto( userToBeFound.getProfilePhoto());
+            user.setPresence(userToBeFound.getPresence());
+            user.setField(userToBeFound.getField());
+            user.setReportStatus(userToBeFound.getReportStatus());
+            return user;
         }
     }
 
