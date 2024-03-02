@@ -1,4 +1,4 @@
-# NUS Companion App with Flutter and Java Spring
+# NUS Companion App with Flutter and Java Spring Boot
 
 This companion app, named Weavin, allows online users (authenticated by JWT) to gather on a social platform which dedicates forums for different kinds of faculties in NUS, while also serving as a collection of utilities for students to use during their study. This app wil support several features:
 
