@@ -8,5 +8,4 @@ public class WeavinApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WeavinApplication.class, args);
 	}
-
 }
