@@ -1,0 +1,13 @@
+com.example.project_weavin.app-jetified-annotation-experimental-1.1.0-0 /Users/doyeon/.gradle/caches/transforms-3/02315cc9f75263553d2042718fc375ee/transformed/jetified-annotation-experimental-1.1.0/res
+com.example.project_weavin.app-jetified-window-1.0.0-beta04-1 /Users/doyeon/.gradle/caches/transforms-3/076eb9235982ee06112d76594ea8585f/transformed/jetified-window-1.0.0-beta04/res
+com.example.project_weavin.app-jetified-window-java-1.0.0-beta04-2 /Users/doyeon/.gradle/caches/transforms-3/99750bb863b6fe460a7b5da8686e778d/transformed/jetified-window-java-1.0.0-beta04/res
+com.example.project_weavin.app-core-1.6.0-3 /Users/doyeon/.gradle/caches/transforms-3/d08c73bfb05384f2e52578171dbd141e/transformed/core-1.6.0/res
+com.example.project_weavin.app-debug-4 /Users/doyeon/Desktop/Weavin(to be uploaded)/frontend/android/app/src/debug/res
+com.example.project_weavin.app-main-5 /Users/doyeon/Desktop/Weavin(to be uploaded)/frontend/android/app/src/main/res
+com.example.project_weavin.app-pngs-6 /Users/doyeon/Desktop/Weavin(to be uploaded)/frontend/build/app/generated/res/pngs/debug
+com.example.project_weavin.app-resValues-7 /Users/doyeon/Desktop/Weavin(to be uploaded)/frontend/build/app/generated/res/resValues/debug
+com.example.project_weavin.app-rs-8 /Users/doyeon/Desktop/Weavin(to be uploaded)/frontend/build/app/generated/res/rs/debug
+com.example.project_weavin.app-mergeDebugResources-9 /Users/doyeon/Desktop/Weavin(to be uploaded)/frontend/build/app/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.example.project_weavin.app-mergeDebugResources-10 /Users/doyeon/Desktop/Weavin(to be uploaded)/frontend/build/app/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.example.project_weavin.app-merged_res-11 /Users/doyeon/Desktop/Weavin(to be uploaded)/frontend/build/app/intermediates/merged_res/debug
+com.example.project_weavin.app-packaged_res-12 /Users/doyeon/Desktop/Weavin(to be uploaded)/frontend/build/path_provider_android/intermediates/packaged_res/debug

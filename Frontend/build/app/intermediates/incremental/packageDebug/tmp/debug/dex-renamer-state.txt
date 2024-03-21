@@ -1,0 +1,4 @@
+#Tue Feb 27 17:54:25 SGT 2024
+base.0=/Users/doyeon/Desktop/Weavin(to be uploaded)/frontend/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

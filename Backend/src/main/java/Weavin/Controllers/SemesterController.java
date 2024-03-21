@@ -2,27 +2,31 @@ package Weavin.Controllers;
 
 import Weavin.Entities.Course;
 import Weavin.Entities.Semester;
+import Weavin.Entities.User;
 import Weavin.Repositories.SemesterRepository;
 import Weavin.Repositories.CourseRepository;
+import Weavin.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/semesters")
 public class SemesterController {
 
     @Autowired
     private SemesterRepository semesterRepository;
-
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    @GetMapping("/{id}")
+    // GET request to get a specific semester
+    @GetMapping("/semesters/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Semester findById(@PathVariable Integer id) {
         Optional<Semester> semesterOptional = this.semesterRepository.findById(id);
@@ -32,13 +36,27 @@ public class SemesterController {
         return semesterOptional.get();
     }
 
-    @PostMapping()
+    // GET request to get semesters from a specific user
+    @GetMapping("/users/{userId}/semesters")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Semester> getAllSemestersByUserId(@PathVariable Integer userId) {
+        Optional<User> userOptional = this.userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+        }
+        User user = userOptional.get();
+        return user.getSemesterList();
+    }
+
+    // POST request to create a new semester
+    @PostMapping("/semesters")
     @ResponseStatus(HttpStatus.CREATED)
     public void createSemester(@RequestBody Semester semester) {
         this.semesterRepository.save(semester);
     }
 
-    @DeleteMapping("/{id}")
+    // DELETE request to remove a semester by id
+    @DeleteMapping("/semesters/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteSemester(@PathVariable Integer id) {
         Optional<Semester> semesterOptional = this.semesterRepository.findById(id);
@@ -48,7 +66,8 @@ public class SemesterController {
         this.semesterRepository.delete(semesterOptional.get());
     }
 
-    @PutMapping("/{id}")
+    // PUT request to update semester
+    @PutMapping("/semesters/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void updateSemester(@PathVariable Integer id, @RequestBody Semester newSemesterData) {
         Optional<Semester> semesterOptional = this.semesterRepository.findById(id);
@@ -57,23 +76,11 @@ public class SemesterController {
         }
         Semester semester = semesterOptional.get();
         semester.setUser(newSemesterData.getUser());
-        semester.setPreSuGpa(newSemesterData.getPreSuGpa());
-        semester.setPostSuGpa(newSemesterData.getPostSuGpa());
+        semester.setSeason(newSemesterData.getSeason());
+        semester.setAcademicYear(newSemesterData.getAcademicYear());
         semester.setCourseList(newSemesterData.getCourseList());
+        semester.setNumOfCourses(newSemesterData.getNumOfCourses());
         this.semesterRepository.save(semester);
-    }
-
-    @PutMapping("/{id}/update-gpa")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateGPA(@PathVariable Integer id, @RequestBody UpdateGPARequest gpaRequest) {
-        Optional<Semester> semesterOptional = semesterRepository.findById(id);
-        if (!semesterOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Semester not found.");
-        }
-        Semester semester = semesterOptional.get();
-        semester.setPreSuGpa(gpaRequest.getPreSuGpa());
-        semester.setPostSuGpa(gpaRequest.getPostSuGpa());
-        semesterRepository.save(semester);
     }
 
     @PostMapping("/{id}/add-course")
@@ -95,12 +102,4 @@ public class SemesterController {
         semesterRepository.save(semester);
     }
 
-    static class UpdateGPARequest {
-        private double preSuGpa;
-        private double postSuGpa;
-        public double getPreSuGpa() { return preSuGpa; }
-        public void setPreSuGpa(double preSuGpa) { this.preSuGpa = preSuGpa; }
-        public double getPostSuGpa() { return postSuGpa; }
-        public void setPostSuGpa(double postSuGpa) { this.postSuGpa = postSuGpa; }
-    }
 }
